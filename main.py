@@ -10,7 +10,18 @@ def resetDay():
     with open('day.txt', 'w') as f:
         f.write("0")
 
+def catchErrors():
+    try:
+        with open('day.txt', 'r') as e:
+            read = e.read()
+    except:
+        print("The txt file does not exist")
+        print("Creating new txt file...")
+        time.sleep(3)
+        f= open("day.txt","w+")
+
 def checkTxt():
+    catchErrors()
     with open('day.txt', 'r') as e:
         read = e.read()
         if read == "" or len(read) > 1:
