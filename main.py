@@ -38,6 +38,7 @@ def checkDay(read):
 def updateDate():
     global day
     day = checkDay(read)
+    print(str(datetime.now().strftime("%A, %B %d, %Y")) + " | Letter Day: " + day)
     day_label.config(text=day)
     
 def changeDay(boolean):
@@ -58,19 +59,28 @@ def changeDay(boolean):
             read = str(get_day-1)
     updateDate()
 
-"""
 def update_time():
+    
     curr_time = datetime.now().strftime("%H:%M:%S")
-    print(curr_time)
-"""
+    curr_day = datetime.now().strftime("%A")
+    
+    time.config(text=curr_time)
+    root.after(1000, update_time)
+    if str(curr_time) == "24:00:00":
+        weekday_label.config(text=curr_day)
+        if str(curr_day) == "Saturday" or (curr_day) == "Sunday":
+            print("Today is a weekend! No School!")
+        else:
+            changeDay(True)
+
+print("Day of the week: By Andrew Wang")
+print("")
 read = checkTxt()
-
-
 if read != "":
     with open('day.txt', 'w') as f:
         f.write(read)
     day = checkDay(read)
-    print(day)
+    print(str(datetime.now().strftime("%A, %B %d, %Y")) + " | Letter Day: " + day)
     letter_label = Label(root,font="Arial 20 bold",text="Letter Day:")
     letter_label.place(x=185,y=200)
     day_label = Label(root,font="Arial 50 bold",text=day)
@@ -79,6 +89,11 @@ if read != "":
     prev_button.place(x=10,y=450)
     add_button = Button(root, text="next", command = lambda: changeDay(True))
     add_button.place(x=70,y=450)
+    time = Label(root, font="Arial 20 bold", text=datetime.now().strftime("%H:%M:%S"))
+    time.place(x=380,y=450)
+    weekday_label = Label(root, font="Arial 15 bold", text=datetime.now().strftime("%A"))
+    weekday_label.place(x=380,y=420)
+    update_time()
 else:
     print("Restarting day of the week...")
     time.sleep(2)
