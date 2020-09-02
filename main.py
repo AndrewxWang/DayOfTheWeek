@@ -13,9 +13,13 @@ def resetDay():
 def checkTxt():
     with open('day.txt', 'r') as e:
         read = e.read()
-        if read == "":
-            print("The txt file is empty.")
+        if read == "" or len(read) > 1:
+            print("The txt file is empty or invalid.")
             resetDay()
+        elif len(read) == 1:
+            if not str(read).isdigit():
+                print("The txt file contains an invalid input.")
+                resetDay()
         return read
     
 def checkDay(read):
@@ -76,7 +80,8 @@ def update_time():
 print("Day of the week: By Andrew Wang")
 print("")
 read = checkTxt()
-if read != "":
+
+if (read != "") and (not len(read)>1) and (read.isdigit()):
     with open('day.txt', 'w') as f:
         f.write(read)
     day = checkDay(read)
